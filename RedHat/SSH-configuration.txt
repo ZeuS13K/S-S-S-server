@@ -1,0 +1,111 @@
+------------------------------------------------SSH----------------------------------------------------------------------------
+
+-CONFIGURE and SECURE SSH
+
+	-Utilities(commands)|shell(bash,ksh)|kernel|hardware|
+
+	-SSH: provides you with an interface to the Linux System.
+
+------------------------------------------SSH CONFIGURATIONS----------------------------------------------------------------------
+ 
+1.//configure Idle-Timeout-Interval -> avoid having an unattended SSH session
+	
+	//Setting idle-timeout
+ 
+	-become root
+	-cp /etc/ssh/sshd_config /etc/ssh/ssh_config-original			//making backup- mero laptop ma ni ghareko xu 
+
+	-edit your /etc/ssh/sshd_config file and add the following line:
+	 	ClientAliveInterval 600                                        //(10min)
+	 	ClientAliveCountMax 0
+	 		
+	-#systemctl restart sshd           					//mero ma: systemctl restart ssh
+	 	
+	-cp /etc/ssh/sshd_config-original /etc/ssh//ssh_config
+
+2.//Disable root login
+
+	-Become root
+	-edit /etc/ssh/sshd_config file and add the following line:
+		PermitRootLogin no                                      	//change the value from yes to no	
+	-#systemctl restart sshd
+
+3.//Disable Empty Passwords
+	
+	-Become root
+	-edit /etc/ssh/sshd_config file and add the following line:
+		PermitEmptyPasswords no                                      //remove the # to remove it from comment and enable it
+	-#systemctl restart sshd
+	
+	
+4.//Limit User's SSH Access: -limiting access to certain users only
+	
+	-Become root
+	-edit /etc/ssh/sshd_config file and add the following line:
+		AllowUsers <user1> <user2> no                                      //add the following line
+	-#systemctl restart sshd
+	
+5.//Using different port for ssh -> by default its on port 22 , changing the default port to different number
+	
+	-Become root
+	-edit /etc/ssh/sshd_config file and add the following line:
+		Port 22                                    			//remove # to enable and change port number to different port number
+	-#systemctl restart sshd
+	
+
+//PS: No need to make above configure changes to make ssh work.
+-----------------------------------------SSH-Keys-------------------------------------------
+
+	--- used to access Remote Server without Password.
+
+             -reasons: -repetitive logins
+             	       -Automation through scripts
+             	      
+             -keys are generated at User Level
+
+
+//accessing remote server using SSH-keys
+	
+	---Client1---connecting--->Server
+	
+	step:1 -> Generated Key
+		  #ssh-keygen
+	step:2 -> Copy the key to the server
+		  #ssh-copy-id root@192.168.1.x                 //server-username@<Server-address> 
+		  						//saves generated key to server machine
+	step:3 -> Login from client to server
+		  #ssh root@192.168.1.x                         //<server-address>
+	       OR #ssh -l root 192.168.1.x			//getting logged-in to server machine
+	       
+--------------------------------------LAB----------------------------------------------------------------
+ ------RedHat(client)
+   
+   1.find its ip
+   	-#ifconfig                				 //let 192.168.1.13
+   	
+   2. #ssh-keygen
+   	    -default (/root/.ssh/id_rsa) file where key is stored
+   	    -choose no password (by leaving it empty)
+   	  
+   	    
+    3. #ssh-copy-id root@192.168.1.55                            //address of CentOS(Server)
+       
+          -enter root password of centOS
+          
+   4. #ssh root@192.168.1.55          				//connecting to server
+   
+ ------CentOS(server)
+   
+   -//find hostname
+   	#whoami                       				//let centOS
+   	
+   -//login as root
+   -//find ip
+  	#ifconfig						//let 192.168.1.55
+  	
+  	
+    -//to check the authorized keys
+       #cd /root/.ssh/
+       #cat authorized_keys
+       
+------------------------------------------------------------------------------------------------

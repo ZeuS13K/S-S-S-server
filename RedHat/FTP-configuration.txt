@@ -1,0 +1,77 @@
+--------------------------------------------------FTP---------------------------------------------------------------
+
+//INSTALL and CONFIGURE FTP (being server)
+
+	-become root
+	-$rpm -qa | grep ftp				//to check if ftp is installed or not
+							//if no output - ftp is not installed
+	-$ping www.google.com				//to check network connection
+	
+	-$yum install vsftpd				//installing vsftpd in redhat
+	-$sudo apt-get install vsftd                    //installing in Kali
+	
+	
+//Configuration of FTP-Server file
+
+
+	-$vi /etc/vsftpd/vsftpd.conf
+	
+	-make following changes to "vsftpd.conf" file
+	
+		-anonymous_enable=NO				//disable anonymous login
+		
+		-ascii_upload-enable=YES                        //uncomment or enable
+		-ascii_download_enable=YES			//uncomment or enable
+		
+		-ftpd_banner=Welcome to UNIXMEN FTP service 	//uncomment and write any message (Optional)
+		
+		-use_localtime=YES				//add at the end of file
+		
+//Starting FTP-SERVER in Server-Machine
+
+	-# systemctl start vsftpd
+	-# systemctl enable vsftpd                       // enable command, starts service at every reboot automatically -service start ghari rakhnu parena 
+	-# systemctl stop firewalld
+	-# systemctl disable firewalld
+	
+	-# useradd iafzal				//adding user if not available in machine 
+	
+	
+//INSTALLING FTP-CLIENT in Client-Machine
+
+	-$sudo su                       //become root
+	-$yum install ftp		//install ftp server 
+	
+	-$su - <USERNAME>               //being root as user	
+	-$touch <filename>		//creating file
+	
+	
+	-ftp <server-ip>		//connecting to ftp-server
+	 $ftp 192.168.1.20
+	 
+//Inside ftp-interface
+	>bi				//switching to binary mode
+	>hash                           //when tranfering file --show me the loading process
+	>put <Filename>			//uploading file in server
+	
+		       #ftp> put test1
+			local: test1 remote: test1
+			229 Entering Extended Passive Mode (|||23733|)
+			150 Ok to send data.
+			100% |***********************************|    20       37.34 KiB/s    00:00 ETA
+			226 Transfer complete.
+			20 bytes sent in 00:00 (8.89 KiB/s)
+			
+			//file is saved at home/<user-dir> in server-machine.
+			
+--------------------------------------------------------SCP--------------------------------------------------------------------------
+
+//SECURE COPY PROTOCOL
+
+	-scp <file-name> <server-username>@<server-address>: <destination_file_path>
+	-$scp jack sundar@192.168.71.128:/home/sundar                                //sending jack file to sundar-server
+	
+	
+--------------------------------------------------------------------------------------------------------------------------------------
+	
+		
