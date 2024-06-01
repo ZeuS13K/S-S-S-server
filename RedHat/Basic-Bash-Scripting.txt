@@ -191,3 +191,7 @@ EX-2
 		-egrep: used while searching for two keywords
 		
 			#egrp -i "<1st-keyword>|<2nd-keyword>" <file-name>	//shows lines that matches either 1st or 2nd keyword
+			
+			
+			
+		//sundar ko lagi message//
