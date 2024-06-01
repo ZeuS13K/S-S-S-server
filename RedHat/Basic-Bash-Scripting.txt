@@ -1,0 +1,193 @@
+--------------------------------------------INTRO SHELL------------------------------------------------------
+find your shell
+
+#echo $0					//to see current shell
+#cat /etc/shells				//available shells
+#cat /etc/passwd				//to see current shell assigned to user
+
+--------------------------------------------SHELL SCRIPTING---------------------------------------------------		
+
+-A shell script is an executable file containing multiple shell commands that are executed sequentially.
+-Script should be executable (-rwx r-x r-x).
+-shell script has to be called from absolute path.(e.g: /home/userdir/script.bash)
+-if called from current location then ./script.bash
+
+--------------------------------------------BASIS SCRIPT------------------------------------------------------
+
+	#nano output-screen
+		//inside nano
+			!/bin/bash
+			hello word
+	#chmod a+x output-sceen		//change file to executablenan
+	#./output-screen
+	
+EXECUTING COMMANDS 
+	
+	#nano small-operations
+		//Inside nano write following lines
+		#!/bin/bash 
+		#example to run commands as script
+		
+		whoami
+		echo 			//used as line-break	
+		pwd
+		echo
+		ls -al
+		
+		//Save the file
+	#chmod a+x small-operations
+	#./small-operations
+	
+	
+DEFINE VARIABLE
+	
+	#nano define-variable
+		//Inside nano write the following line
+		#!/bin/bash
+		#example of variables
+		
+		a=Mr.Beast
+		b=10000000
+		c=BOOBS
+		
+		echo "My name is $a"
+		echo "I have $b dollars in my bank account"
+		echo "Show me some $c"
+		
+		//save the file.
+		
+	#chmod a+x define-variable		//changing permission to executable	
+	#./define-variable			//running script file
+		
+
+----------------------------------------------------INPUT OPERATION-----------------------------------------------------------------
+
+-taking input from user
+	-read: stores the input value in a variable. SYN: read <variable-name>
+	-echo: used as print function.
+	
+	#nano input-script
+		//Inside nano write the following lines
+		#!/bin/bash
+		#Auther: samir kshettri
+		#Date: 2021-05-31
+		
+		
+		#a=hostname		//stores command o|p in a variable
+					//SYN: variable_name=command
+		#$a			//Prints the value of a
+		
+		#To use $a in echo statement keep command inside ''
+		#SYN: variable_name='command'
+		
+		a='hostname'
+		
+		echo 
+		echo Hello, My name is $a
+		echo 
+		echo Who are you?
+		read name			//stores value input by user
+		echo 
+		echo Whats up! $name		/$name prints the value of name
+		echo
+		
+		//Save the files
+		
+	#chmod a+x input-script
+	#./input-script
+	
+--------------------------------------------------------------IF-THEN SCRIPTS------------------------------------------------------------------
+	-if this happens = do this
+	-otherwise	= do that
+	
+EX-1
+//using if-then 
+	
+	#!/bin/bash
+	count=100
+	if [ $count -eq 100 ]			//if (count=100){//block},else{//block}
+	then
+	  echo Count is 100
+	else
+	  echo Count is not 100
+	fi
+	
+EX-2
+	
+	#!/bin/bash				//declaring shell environment to work
+	
+	clear
+	if [ -e /home/samir/error.txt ]		//-e: checks for the exist of a file in a given location.
+						//checks for "error.txt" in /home/samir/
+	
+		then
+		echo "File Exist"
+		else
+		echo "File doesn't exist"
+		
+	fi
+	
+-------------------------------------------FOR LOOPS SCRIPTS---------------------------------------------------------------
+	-keeps running until specified number of variable.
+	
+	
+EX-1
+//using for loop
+//storing numerical value for loop
+	
+	#!/bin/bash
+	
+	for i in 1 2 3 4 5		//i stores value - 1,2,3,4,5
+	do				//start of block statement 
+	echo "Welcome $i times" 	//prints statement i=5 times
+	done				//Declaration of end of for loop
+	
+	o|p:
+	
+		Welcome 1 times
+		Welcome 2 times
+		Welcome 3 times
+		Welcome 4 times
+		Welcome 5 times
+EX-2
+//storing string value for loop
+
+	#!/bin/bash
+	
+	for i in draws plays scripts code 
+	do
+	echo "sundar always $i"
+	done 
+	
+	
+	o|p:
+	
+		sundar always draws
+		sundar always plays
+		sundar always scripts
+		sundar always code 
+		
+		
+-----------------------------------GREP AND EGREP------------------------------------------
+
+	-grep(global regular expression print): process text line by line and prints any lines which match a specified pattern.
+		-SYN: grep <keyword> <file-name>			//<keyword>: word you want to search
+								//<file-name>: from which file you want to search from
+	
+		-Switches:
+			#grep -c <keyword> <file-name>		//search for a keyword and counts
+			
+			#grep -i <keyword> <file-name>		//search for a keyword ignores case-sensitivity
+			
+			#grep -n <keyword> <file-name>		//display matched line and its line number
+			
+			#grep -v <keyword> <file-name>		//display line that doesnt match the keyword
+			
+		-using combination
+			#grep <keyword> <file-name> | awk '{print $1}'		//displays only first column
+			#ls -l | grep <file-name>		//search for keyword from list
+			
+		
+		-egrep: used while searching for two keywords
+		
+			#egrp -i "<1st-keyword>|<2nd-keyword>" <file-name>	//shows lines that matches either 1st or 2nd keyword
