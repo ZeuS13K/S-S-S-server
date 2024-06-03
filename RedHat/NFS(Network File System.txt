@@ -1,0 +1,67 @@
+-------------------------------------------------------NFS(Network File System)---------------------------------------------------------------
+	-Its a client-server system that allows users to access files across a network and treat them as if they resided in a local file directory.
+	
+	
+CONFIGURATION
+
+	-FOR SERVER
+	
+	//install nfs packages
+		#yum install nfs-utils libnfsidmap
+		
+	//starting necessary services
+		#systemctl enable|start rpcbind
+		#systemctl enable|start nfs-server
+		#systemctl start nfs-idmapd
+		
+	//creating NFS shared directory
+		#mkdir /NFS-file 			//must be inside home directory (/)
+		#chmod a+rwx /NFS-file			//changing permission to rwx
+		
+	//modify /etc/exports file to add new shared filesystem
+		#cd /etc
+		#nano exports
+			//inside nano write following lines 			//initially is empty
+			/NFS-file 192.168.12.7(rw,sync,no_root-squash)		//for giving access to only one user
+											-/NFS-file: shared dir name
+											-192.168.12.7: ip-address of client 
+											-rw: read-write permission
+											-sync: writing file stores in service right now
+											-no_root_squash: root on the client machine will have the same level of access
+													to the files on the system as root on the server.	
+			
+		OR,	/NFS-file *(rw,sync,no_root_squash)			//for all users
+		
+	//Exporting NFS filesystem
+		//sudo exportfs -rv
+											
+	
+	
+	
+	-FOR CLIENT
+	
+		#yum install nfs-utils rpcbind			//installing packages	
+		#service rpcbind start				//starts rpcbind service
+		
+		#ps -ef | grep "firewall|iptable		//checking if firewalld and iptable are active	
+			//if firewalld and iptable are active -disable it.
+			#systemctl stop firewalld
+			#systemctl stop iptable	
+			
+		#showmount -e 192.168.1.96 			//shows mountable NFS dir from server
+								//192.168.1.96 : <server-ip>
+								
+		#mkdir /mnt/Shared-file				//making mount point "Shared-file" folder as mount point
+								//it should be created inside /mnt dir
+								
+		#mount 192.168.1.96:/NFS-file /mnt/Shared-file	//SYN: mount <server-ip>:<shared NFS dir> <mount_point_dir>
+		
+		
+		//verify the files in client
+			#df -h
+		//to unmount 
+			#unmount /mnt/Shared-file
+			
+			
+PS: Check connection between server and client using "ping" command.
+-------------------------------------------------------------------------------------------------------------------------------------
