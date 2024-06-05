@@ -1,0 +1,546 @@
+
+-apps like github
+	-gitlab
+	-gitbucket
+
+-------------------------------------OPERATIONS---------------------------------------------------------
+	1.git operation 
+	  - push operation
+	  - pull operation
+	  
+	2.git sub-operation
+	3.git staging
+		-tracking
+		-committing
+	4.conflict
+		-resolved
+	5.merging
+	6.clone
+	7.setup
+
+---------------------------------CONFIGURATIONS-----------------------------------------------------------
+	 -global configuration        
+	 -project based configuration    //project is also called repo. in git.
+
++ MENU
+	new repository----create new repository
+	import repository --- import from another repository
+	new codespace ---- online vs-code for coding
+	new gist --- for documentation -- single page application
+	new organization --- for working in multiple organization
+	new project --- for project management 
+
+
+------------------------------------CREATING REPOSITORY-------------------------------------------------------
+	-creating centeralized repo (in git hub) and connecting to machine using ssh
+			
+
+	 	-click on new repo
+		 -give repo name
+		 -select either -private or -public 
+		 -Don't Add a README file --->makes push operation difficult //for initial user
+		 -Don't ADD .gitmore
+
+	-CONNECTING WITH SERVER
+		  -private key -- for admin
+		  -public key -- for users/hosts
+
+	-ACCESSING GITHUB METHOD
+		 -https link --- for using ftp to access repo
+		 -ssh link --- for using ssh to access repo
+			 
+	-LOGIN METHOD
+		 -using login with username and password
+		 -using ssh 
+	 
+
+	-USING SSH
+
+	-to connect local-repo with centeralized-repo in github
+
+	step 1:
+	In terminal-
+		$ssh-keygen 					 	//to generate ssh key
+		  							// dont need to generate if already generated.
+		 
+		 -// don't use any value as file name 
+		 -// password as your wish 
+		 
+		$cd /home/samir/.ssh
+		$cat id_ed25519.pub file 
+
+	step 2:
+	In Site-
+		 -copy every content of the .pub file 
+		 -open github- click on profile --> setting --> ssh and gpg keys --> ssh keys --> new ssh key
+		 -paste the copied key to the key field --> give any title
+		 -create !
+	 
+ --------------------------------------------------------GLOBAL CONFIGURATION--------------------------------------------------------------------------------
+
+CASE 1: file is in local file not in github
+
+	//INITIALIZING a folder in git repo
+
+	1: Open the target folder in terminal
+	2: $git init                     // initializing git for the current working directory 
+
+			─(samir㉿kali)-[~/Documents/CCNA]
+			└─$ ls   
+			firstfile
+						                                                        
+			┌──(samir㉿kali)-[~/Documents/CCNA]
+			└─$ git init
+			hint: Using 'master' as the name for the initial branch. This default branch name
+			hint: is subject to change. To configure the initial branch name to use in all
+			hint: of your new repositories, which will suppress this warning, call:
+			hint: 
+			hint: 	git config --global init.defaultBranch <name>
+			hint: 
+			hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+			hint: 'development'. The just-created branch can be renamed via this command:
+			hint: 
+			hint: 	git branch -m <name>
+			Initialized empty Git repository in /home/samir/Documents/CCNA/.git/
+
+	//LINKING local repo to github repo
+
+
+		       -2 methods --> https url and ssh url          				 //after using it for more than once next time use <>code to find url
+	 -Using SSH --->copy ssh url
+
+	Step 1:
+	   -linking with ssh
+	   
+	   $git remote add origin git@github.com:ZeuS13K/CCNA-Project.git  // origin --> is file name could be anything but since its initial file we use origin as 				 			
+	   										 filename.
+		   .....┌──(samir㉿kali)-[~/Documents/CCNA]
+			└─$ git remote add origin git@github.com:ZeuS13K/CCNA-Project.git
+		   
+		  !!linking DONE !!
+
+	//To see FILE STATUS of code-base
+	
+		  $git status
+		   ......┌──(samir㉿kali)-[~/Documents/CCNA]
+			 └─$ git status                                                   
+			 On branch master  						          //there is main as default for newer-version instead of master.
+
+			 No commits yet
+
+			 Untracked files:
+			   (use "git add <file>..." to include in what will be committed)
+				firstfile
+
+		 nothing added to commit but untracked files present (use "git add" to track)   // untracked file error -for newer file that need to be tracked.
+		     .....
+
+	//ADD TRACKING - for committing code to push code
+	
+		 $git add .                                 		  // shows the changed file for committing and ready to be pushed ---> gets tracked 
+			┌──(samir㉿kali)-[~/Documents/CCNA]
+			└─$ git add . 
+		$git status                                 		   // to see the changes after tracking
+			┌──(samir㉿kali)-[~/Documents/CCNA]
+			└─$ git status
+			On branch master
+
+			No commits yet
+
+			Changes to be committed:
+			  (use "git rm --cached <file>..." to unstage)
+		  
+	//COMMITTING the changes to perform push operation    		  // to show changes you made in file
+
+		$git commit -m "first push"   //-m --> denotes message "first push" ---> is the message
+		
+			...........
+			┌──(samir㉿kali)-[~/Documents/CCNA]
+			└─$ git commit -m "first push"                    
+			[master (root-commit) 12ced89] first push
+			 1 file changed, 2 insertions(+)
+			 create mode 100644 firstfile
+						                                                                                                                                                
+			┌──(samir㉿kali)-[~/Documents/CCNA]
+			└─$ git status                
+			On branch master
+			nothing to commit, working tree clean      	 //before using PUSH operation working tree should always be clean.
+								  	 // if not clean ---> repeat the commit step till its clean.
+			............	
+	
+	// YOU MAY GET THIS ERROR !!!
+       
+		       .............
+			┌──(samir㉿kali)-[~/Documents/CCNA]
+			└─$ git commit -m "first push"                
+			Author identity unknown
+
+			*** Please tell me who you are.
+
+			Run
+
+			  git config --global user.email "you@example.com"				
+			  git config --global user.name "Your Name"
+
+			to set your account's default identity.
+			Omit --global to set the identity only in this repository.
+
+			fatal: unable to auto-detect email address (got 'samir@kali.(none)')
+				                                                                                                                                        		                                                                                                                                    
+			┌──(samir㉿kali)-[~/Documents/CCNA]
+			└─$ git config --global user.email "samirkshettri@gmail.com"			//sets up git account username & gmail
+						                                                                                                                                                
+			┌──(samir㉿kali)-[~/Documents/CCNA]
+			└─$ git config --global user.name "samir kshettri"   
+			
+			.............
+			
+
+	//TO REVERSE THE CHANGES COMMITED --> stash-->removes uncommited codes are removed.
+ 	  	 $git stash
+ 	
+
+	//Using PUSH OPERATION --> to deploy code in repo
+		
+		
+		$git push origin master
+		
+			..............
+			
+			┌──(samir㉿kali)-[~/Documents/CCNA]
+			└─$ git push origin master
+			The authenticity of host 'github.com (20.205.243.166)' can't be established.
+			ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
+			This key is not known by any other names.
+			Are you sure you want to continue connecting (yes/no/[fingerprint])? y
+			Please type 'yes', 'no' or the fingerprint: yes
+			Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.
+			Enumerating objects: 3, done.
+			Counting objects: 100% (3/3), done.
+			Writing objects: 100% (3/3), 242 bytes | 242.00 KiB/s, done.
+			Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+			To github.com:ZeuS13K/CCNA-Project.git
+			 * [new branch]      master -> master
+			 
+			................
+	
+	// DONE local file is added to git repo --> check the github repo see the file 
+
+
+
+------------------------------------------GIVING ACCESS--------------------------------------
+
+		-giving acces to other users.
+      Step 1 :
+	  -go to repo setting --> collaborator --> shows a dash board to add users
+      Step 2: adding user
+	  -add either github username or email used to create github
+---------------------------------------------------------------------------------------------
+
+CASE 2: no file in locally but is in github repo
+
+	//CLONE FUNCTION
+		step 1: Access repo from github
+		step 2: Goto <>code                                     //used for cloning 
+		step 3: copy the code from ssh 
+		step 4: copy the code to the file you want to download  // folder connected to git cannot be used 
+									// check the folder using --> git status --> if o|p --> no git file 
+									// don't need to create sub-folder
+				┌──(samir㉿kali)-[~/Documents/DGIT]
+				└─$ git status				//verifying current folder is not a git-folder
+				fatal: not a git repository (or any of the parent directories): .git
+		
+		step 5: >git clone <code_url>
+								                                                        
+				┌──(samir㉿kali)-[~/Documents/DGIT]
+				└─$ git clone git@github.com:ZeuS13K/CCNA-Project.git
+				Cloning into 'CCNA-Project'...
+				remote: Enumerating objects: 3, done.
+				remote: Counting objects: 100% (3/3), done.
+				remote: Total 3 (delta 0), reused 3 (delta 0), pack-reused 0
+				Receiving objects: 100% (3/3), done.
+			
+						DONE!
+
+	//For NEXT SESSION: our clone folder is connected to repo as default and can be accessed to it all time
+	  
+	  Step 1: checking the git status for folder                              //must be a folder that was used to clone the repo before
+		   >git status 
+			   	┌──(samir㉿kali)-[~/Documents/DGIT/CCNA-Project]
+				└─$ git status                                       
+				On branch master
+				Your branch is up to date with 'origin/master'.
+
+				nothing to commit, working tree clean             //if tree is clean can be used to perform PULL Function.
+
+	 Step 2: to extract file after someone pushed some file.
+		  >git pull origin master                      //master or main---> of the server repo --> to see the default branch: goto repo -->main-->branch 
+
+
+		
+---------------------------------------------------------------COMMON COMMANDS------------------------------------------------------------------
+
+		-github is centeralized repo for local local-repo
+		-github is a repository hosting service (common known as code hosting platform).
+			
+//check git configuration file
+
+	#git config --list
+		
+		//output
+		
+		user.email=samirkshettri@gmail.com
+		user.name=samir kshettri
+		core.repositoryformatversion=0
+		core.filemode=true
+		core.bare=false
+		core.logallrefupdates=true
+		remote.origin.url=git@github.com:ZeuS13K/S-S-S-server.git
+		remote.origin.fetch=+refs/heads/*:refs/remotes/origin/*
+
+
+//check git logs -checking every activity for certain git file
+
+	#git log
+
+		commit 65f35abc314fc656237e1e01e99978ce1385ac82 (HEAD -> master, origin/master)
+		Author: samir kshettri <samirkshettri@gmail.com>
+		Date:   Mon Jun 3 16:58:30 2024 +0545
+
+		    Local File-Transfer
+
+		commit 5ab95638e8b1cb15457fb27226fe97abcdeadc78
+		Author: samir kshettri <samirkshettri@gmail.com>
+		Date:   Sat Jun 1 10:29:30 2024 +0545
+
+		PS: 65f35abc314fc656237e1e01e99978ce1385ac82 is commit_id
+	
+	#git log --author="kshettri, samir"			//log of a specific user/author "samir kshettri"
+
+
+//to see difference in file content between file stored locally(working area) and same file stored in local-repo.
+
+	#git diff						
+
+//to see difference between staging-stage and local-repo
+
+	#git diff --staged
+
+//to delete file from git
+
+	#git rm <file-name>
+	
+		//then, we have to commit the deletion changes
+		#git commit -m "file was deleted"
+		
+		
+----------------------------------------------------------BRANCH IN GITHUB--------------------------------------------------
+
+	-main branch in git is "master"
+	-we can create sub-branches connected to master branch
+	-SYN: git branch <branch-name>
+	
+-CREATING BRANCHES
+
+	//we will create a sub-branch "develop"
+
+	$git branch develop				//creates a sub-branch "develop"
+	$git checkout develop				//shifting to "develop" sub-branch from master-branch
+	$git branch					//shows all available branches
+							//"*" represents current branch
+							
+	//every sub-branch contains the pointer to file (not actual file)that is pushed in master-branch and wont take memory space.
+	
+	//BUT, if some file is committed or pushed in sub-branch, it will not be visible or pushed into master-branch -until master-branch and sub-branch are merged.
+	
+	$git push origin develop	 		//pushing in sub-branch "develop"
+	
+	
+	
+-ADDITIONAL BRANCH COMMAND
+
+	$git branch -m <current-name> <new-name>			//renames branch
+	
+	$git branch -d <branch-name>					//deletes branch
+	
+	
+-MERGING BRANCHES	
+
+	//move file from sub-branch to master-branch
+	//merging one branch with another all the changes and commit made in source-branch is merged to target-branch
+	
+	$git checkout master 				//switch to master-branch
+	$git merge develop -m "merging develop"		//merge file from sub-branch "develop" to master-branch
+							//-m: merge message
+	
+	$git push origin master
+	
+	//only master-branch can see the file merged to master by "develop" BUT cannot be viewed by other sub-branch
+	//Other branch not merged master-branch, have to pull files from master to see the added files by "develop" sub-branch.
+			-$git pull origin master
+			
+-RESOLVE CONFLICT DURING MERGING
+
+	-conflict occurs when merging two branch ,when git gets confuse about which file to keep and which to discard.
+
+	-when there is single file "hello.txt" in both branch master and sub-branch , both branch has added some contents and committed in "hello.txt" with different 
+	 commit message but has not pushed yet when merging both branches. there occurs error message unable to merge branch
+	 
+	 -we have to resolve this problem manually by changing the content of file (making similar in both branch).
+	 
+	 //PS: opening the file "hello.txt" git will automatically indicates the different lines in both branch. Edit the line and resolve the error
+			
+-REVERT CHANGES IN FILE
+
+	//when a file content is changed in workspace and -is tracked (using $git add .) and is in staging-state
+	//but you want to revert the changes made to original file before being tracked.
+	
+	$git reset HEAD <file-name>			//<file-name>: file that changes it to be revert
+							//moves the file from staging to workspace
+							
+	//to revert commit made to file (commit only)
+	$git reset HEAD~				//~: tild sign
+	
+-------------------------------------------------FORK AND CLONE----------------------------------------------------------------------------------
+
+-FORK: create the remote target-repo in you personal repo in github.
+	
+	-Forkin a remote git "https://github.com/ZeuS13K/S-S-S-server" to our personal repo
+		
+		-goto address https://github.com/ZeuS13K/S-S-S-server
+		-click on "Fork" option 
+		-enter your github id
+			
+		//this will fork the remote repo to your personal github account
+			
+-CLONE: creating the personal-repo in github in your local machine.
+
+	-cloning "https://github.com/ZeuS13K/S-S-S-server" in local-repo
+	
+		-copy ssh-link from address "git@github.com:ZeuS13K/S-S-S-server.git"
+		-create a folder in local machine "sss-server"
+		-open folder in terminal
+		-$git clone git@github.com:ZeuS13K/S-S-S-server.git				//SYN: git clone <ssh-link>
+
+
+
+------------------------------------PUSHING FILE IN REMOTE GITHUB------------------------------------------------------------------------------
+
+	-Fork and Clone the remote-repo in your local machine 				//let local-repo be "sss-server"
+											//remote-repo: git@github.com:ZeuS13K/S-S-S-server.git
+											
+	-open the local-repo in terminal
+	-$git status									//let there is new file hello.txt to push
+											//checking the git status of folder
+	-$git add hello.txt
+	-$git commit -m "test file"
+	-$git pull origin master							//downloading all file from remoter-repo
+	-$git push origin master
+
+
+
+---------------------------------------REVERT GIT CHANGES-----------------------------------------------------------------------
+
+		-reverting from staging stage to workspace-stage to undo changes done in workspace-stage file
+		
+		
+		-let an original file: hello.txt contents: "hello its me world"
+		-make changes in file: hello.txt contents: "hello its me world. Who are you?"
+		
+		-$git status									//will show untracked modified file hello.txt
+		-$git add hello.txt								//will track the new modified file for push
+		
+		//to untrack file hello.txt to initial state.
+		//reverting from staging to workspace
+		
+		-$git reset HEAD hello.txt							//will untrack the tracked file
+												
+		
+		//to undo the changes made to file locally
+		//undo chances made in workspace
+		
+		-$git checkout -- hello.txt							//revert file contents to original file with content
+												  "hello its me world" only.
+		
+-------------------------------------------DELETE AND RESET FILE IN GIT------------------------------------------------------------------
+
+		-$git rm hello.txt 					//will delete the file "hello.txt"
+		
+		-$git status						//will show the file is deleted and tracked 
+									//will be pre-tracked if deleted using git rm
+									//will not be pre-tracked if deleted from OS locally.
+									
+									
+		-$git reset HEAD hello.txt 				//undo delete operation in staging
+		
+		-$git checkout -- hello.txt 				//undo delete operation locally
+		
+		
+-MOVE AND RENAME
+		-$git mv <file-name> <new-file-name>			//renames file name
+		
+		-$git mv <current-file-path> <destination-path>		//moves the file from current location to destination location.
+		
+		
+----------------------------------------------------VIEW COMMIT, FILE HISTORY------------------------------------------------------------------
+
+		-$git log						//shows commit log
+		
+		-$git log --oneline --graph --decorate 			//more informative view of commit log
+		
+		-$git log --since="2 days ago"				//time based search to search commit done in last 2 days.
+		
+		
+		
+		-$git log -- <file-name>				//show commit for particular file
+		
+		-$git show <commit-id>					//show the detail about file
+		
+		
+		-git help log						//shows all the option for log command
+		
+		
+-------------------------------------------------------------GIT ALIAS----------------------------------------------------------------
+
+		-creating short-command for longer-command
+		-SYN: $git config --global alias.<short-command> "<longer-command>"
+		
+		-creating short-command: "history" for longer-command: "log --all --graph --decorate --oneline"
+		
+			-$git config --global alias.history "log --all --graph --decorate --oneline"
+		
+		
+		
+		$nano ~/.config						//show the git config file and changes made using "git config" command
+		
+		
+-------------------------------------------------------EXCLUDE UNWANTED FILE--------------------------------------------------------------
+
+
+		-ignore files in a repo during staging stage using .gitignore file
+		
+		-create a file ".gitignore" in local-repo dir
+		$nano .gitignore
+		
+			//Inside .gitignore file write following lines
+			
+				hello.txt		//ignores the file hello.txt
+							//SYN: <file-name>
+				*.txt			//ignores all the file that have extension ".txt"
+							//SYN: *.<file-extension>
+							
+				TestResouces/		//ignores all the file in TestResources folder
+							//SYN: <folder-name>/
+			
+		$git status
+		$git add .
+		$git commit -m "updating .gitignore file"
+		$git push origin master
+		
+----------------------------------------COMPARISION----------------------------------------------------
+
+		$git diff HEAD hello.txt 				//shows diff between specific "hello.txt" in working dir and repo
+		
+		$git diff --staged HEAD hello.txt 			//shows the changes in staged area that is missing in repo
+		
+		$git diff <first-commit-id> <second-commit-id>		//shows the different between commits
